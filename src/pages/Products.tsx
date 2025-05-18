@@ -23,6 +23,12 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useNavigate } from 'react-router-dom';
+import Drawer from '@mui/material/Drawer';
+import Slider from '@mui/material/Slider';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 const products = [
@@ -81,6 +87,8 @@ const initialCart = [
   { id: 3, name: 'Black Striped T-shirt', price: 145, image: 'https://placehold.co/300x300?text=Striped+T-shirt', qty: 2 },
 ];
 
+const categories = ['T-shirts', 'Polo', 'Jeans', 'Shirts'];
+
 const Products = () => {
   const [cart, setCart] = useState(initialCart);
   const [quantities, setQuantities] = useState<Record<number, number>>(
@@ -90,6 +98,9 @@ const Products = () => {
   const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
   const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [price, setPrice] = useState([0, 300]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const handleQtyChange = (id: number, delta: number) => {
     setQuantities((prev) => {
@@ -98,14 +109,97 @@ const Products = () => {
     });
   };
 
+  const handleCategoryChange = (cat: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
+    );
+  };
+
   // Order summary calculations
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
   const shipping = 15;
   const tax = 12.5;
   const total = subtotal + shipping + tax;
 
+  const filterButtonStyle = {
+    position: 'fixed' as const,
+    left: 0,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    zIndex: 1301,
+    bgcolor: 'transparent',
+    border: 'none',
+    boxShadow: 'none',
+    p: 0,
+  };
+
   return (
     <Container maxWidth="xl" sx={{ mt: 4 }}>
+      {/* Filter Button */}
+      <Button
+        onClick={() => setDrawerOpen(true)}
+        sx={filterButtonStyle}
+      >
+        <img src="/filterico.png" alt="Filter" style={{ width: 48, height: 48 }} />
+      </Button>
+      {/* Filter Drawer */}
+      <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+        <Box sx={{ width: 300, p: 3 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Typography variant="h6">Filters</Typography>
+            <IconButton onClick={() => setDrawerOpen(false)}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+          <Typography fontWeight={600} sx={{ mb: 1 }}>Price</Typography>
+          <Slider
+            value={price}
+            onChange={(_, v) => setPrice(v as number[])}
+            min={0}
+            max={300}
+            valueLabelDisplay="auto"
+            sx={{ mb: 2 }}
+          />
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+            <Typography>$0</Typography>
+            <Typography>$300</Typography>
+          </Box>
+          <Typography fontWeight={600} sx={{ mb: 1 }}>Category</Typography>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedCategories.length === 0}
+                  onChange={() => setSelectedCategories([])}
+                />
+              }
+              label="All"
+            />
+            {categories.map((cat) => (
+              <FormControlLabel
+                key={cat}
+                control={
+                  <Checkbox
+                    checked={selectedCategories.includes(cat)}
+                    onChange={() => handleCategoryChange(cat)}
+                  />
+                }
+                label={cat}
+              />
+            ))}
+          </FormGroup>
+          <Button
+            variant="contained"
+            fullWidth
+            sx={{ mt: 4, mb: 1, bgcolor: '#000', color: '#fff', fontWeight: 700, borderRadius: 2, py: 1.2, fontSize: 16, '&:hover': { bgcolor: '#222' } }}
+          >
+            Apply Filter
+          </Button>
+          <Typography align="center" sx={{ color: 'grey.600', fontSize: 13, mt: 1, cursor: 'pointer' }}>
+            Clear all filters
+          </Typography>
+        </Box>
+      </Drawer>
       <Box
         sx={{
           display: 'flex',
@@ -122,9 +216,6 @@ const Products = () => {
           </Box>
           {/* Search and Filter */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
-            <IconButton sx={{ border: '1px solid #eee', bgcolor: '#fff' }}>
-              <FilterListIcon />
-            </IconButton>
             <TextField
               placeholder="Search by product name"
               size="small"
