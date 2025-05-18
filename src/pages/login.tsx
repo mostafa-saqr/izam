@@ -20,7 +20,7 @@ const Login = () => {
   return (
     <>
       <Box sx={{ minHeight: '100vh', bgcolor: '#f7f8fa', width: '100vw', position: 'fixed', top: 0, left: 0, zIndex: -1 }} />
-      <Box sx={{ minHeight: '100vh', bgcolor: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 1 }}>
+      <Box sx={{ minHeight: 'calc(100vh - 100px)', bgcolor: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 1 }}>
         <Paper
           elevation={0}
           sx={{
@@ -31,6 +31,7 @@ const Login = () => {
             boxShadow: '0 4px 24px 0 rgba(0,0,0,0.06)',
             p: { xs: 3, sm: 4 },
             mx: 2,
+            mt: -20,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -44,7 +45,7 @@ const Login = () => {
             Please enter your details to sign in
           </Typography>
           
-          <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 1 }}>
+          <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 1, textAlign: 'left', width: '100%' }} >
             Email
           </Typography>
           <TextField
@@ -60,7 +61,7 @@ const Login = () => {
             variant="outlined"
             sx={{ mb: 2, bgcolor: '#f7f8fa' }}
           />
-          <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 1 }}>
+          <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 1, textAlign: 'left', width: '100%' }} >
             Password
           </Typography>
           <TextField
@@ -90,26 +91,17 @@ const Login = () => {
               ),
             }}
           />
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-            <MuiLink href="#" underline="none" sx={{ fontWeight: 500, fontSize: 14 }}>
-              Forgot password?
-            </MuiLink>
-          </Box>
+       
           <Button
             onClick={handleLogin}
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 1, mb: 2, bgcolor: '#000', color: '#fff', fontWeight: 700, fontSize: 16, borderRadius: 2, py: 1.5, '&:hover': { bgcolor: '#222' } }}
+            sx={{ mt: 1,  bgcolor: '#000', color: '#fff', fontWeight: 700, fontSize: 16, borderRadius: 2, py: 1.5, '&:hover': { bgcolor: '#222' } }}
           >
             Login
           </Button>
-          <Typography align="center" sx={{ fontSize: 14, color: 'text.secondary' }}>
-            Don&apos;t have an account?{' '}
-            <MuiLink href="#" underline="none" sx={{ fontWeight: 600 }}>
-              Sign Up
-            </MuiLink>
-          </Typography>
+        
         </Paper>
       </Box>
     </>
