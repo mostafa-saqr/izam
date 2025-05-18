@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box, Button, Typography, IconButton, AppBar, Toolbar, Container, Link as MuiLink } from '@mui/material';
+import { Box, Button, Typography, IconButton, AppBar, Toolbar } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import CloseIcon from '@mui/icons-material/Close';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const [showPromo, setShowPromo] = React.useState(true);
@@ -27,10 +28,10 @@ const Header: React.FC = () => {
             <img src="/izam-logo.png" alt="izam logo" style={{ width: 113, height: 'auto', objectFit: 'contain', marginRight: 8 }} />
           </Box>
           {/* Nav Buttons */}
-          <Button sx={{ fontWeight: 600, color: '#000', mr: 1, px: 2, bgcolor: 'transparent', '&:hover': { bgcolor: '#f5f5f5' } }} disableElevation>
+          <Button component={RouterLink} to="/products" sx={{ fontWeight: 600, color: '#000', mr: 1, px: 2, bgcolor: 'transparent', '&:hover': { bgcolor: '#f5f5f5' } }} disableElevation>
             Products
           </Button>
-          <Button sx={{ fontWeight: 600, color: '#000', bgcolor: '#fff', border: '1px solid #000', px: 2, mr: 2, '&:hover': { bgcolor: '#f5f5f5' } }} disableElevation>
+          <Button sx={{ fontWeight: 600, color: '#fff', bgcolor: '#000', border: '1px solid #000', px: 2, mr: 2, '&:hover': { bgcolor: '#f5f5f5',color:'#000' } }} disableElevation>
             Sell Your Product
           </Button>
           <Box sx={{ flexGrow: 1 }} />
@@ -39,7 +40,7 @@ const Header: React.FC = () => {
             <ShoppingCartOutlinedIcon />
           </IconButton>
           {/* Login Button */}
-          <Button variant="contained" sx={{ bgcolor: '#000', color: '#fff', fontWeight: 600, borderRadius: 1, px: 2, boxShadow: 'none', '&:hover': { bgcolor: '#222' } }} disableElevation>
+          <Button component={RouterLink} to="/" variant="contained" sx={{ bgcolor: '#000', color: '#fff', fontWeight: 600, borderRadius: 1, px: 2, boxShadow: 'none', '&:hover': { bgcolor: '#222' } }} disableElevation>
             Login
           </Button>
         </Toolbar>
