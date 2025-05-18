@@ -3,22 +3,19 @@ import {
   Box,
   Card,
   CardContent,
-  CardMedia,
   Typography,
   Button,
   Container,
   TextField,
   IconButton,
   InputAdornment,
-  Badge,
   Chip,
   Divider,
   Paper,
-  useTheme,
-  useMediaQuery,
+
+
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -96,9 +93,7 @@ const Products = () => {
   const [quantities, setQuantities] = useState<Record<number, number>>(
     products.reduce((acc, p) => ({ ...acc, [p.id]: 1 }), {} as Record<number, number>)
   );
-  const theme = useTheme();
-  const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
-  const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
+
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [price, setPrice] = useState([0, 300]);
